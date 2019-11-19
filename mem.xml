@@ -1,0 +1,9 @@
+apiVersion: v1
+  kind:       Pod
+  metadata:
+    name: mem 
+  spec:
+    containers:
+    - name:    trusty
+      image:   quay.io/imhotepio/iconoflix
+      command: ["/bin/sh"]

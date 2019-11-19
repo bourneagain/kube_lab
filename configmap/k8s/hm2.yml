@@ -1,0 +1,67 @@
+#---
+## ConfigMap
+#apiVersion: v1
+#kind: ConfigMap
+#metadata:
+#  name: hangman
+#data:
+#  custom.txt: |-
+#   audi
+#   bmw
+#   tesla
+---
+# Deployment
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: hangman
+  labels: hangmanapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hangmanapp
+  template:
+    metadata:
+      labels:
+        app: hangmanapp
+    spec:
+      containers:
+      - name: hangman
+        image: quay.io/imhotepio/hangman-svc-go:0.0.1
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: 250m
+              memory: 32Mi
+            limits:
+              cpu: 500m
+              memory: 64Mi
+          ports:
+            - name: http
+              containerPort: 5000
+          volumeMounts:
+          - name: cutom.txt
+            mountPath: /var/hangman
+            readOnly: true
+      volumes: 
+      - name: custom.txt
+        configMap:
+        name: hangman
+---
+# Service
+kind: Service
+apiVersion: v1
+metadata:
+  name: hangman
+  labels:
+    app: hangmanapp
+spec:
+  type: ClusterIP
+  selector:
+    app: hangman
+  ports:
+    - name: http
+      protocol: TCP
+      port: 5000
+      targetPort: 5000

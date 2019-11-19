@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind:  Deployment
+metadata:
+    name: iconoflix 
+spec:
+    replicas: 10
+    strategy:
+      type: RollingUpdate
+      rollingUpdate:
+        maxUnavailable: 5
+        maxSurge: 3
+    selector:
+      matchLabels:
+        app: iconoflixapp
+    template:        
+      metadata:
+        labels:
+          app: iconoflixapp
+      spec:
+        containers:
+        - name: mem
+          image: quay.io/imhotepio/iconoflix:mem
+          ports:
+          - containerPort: 4000
