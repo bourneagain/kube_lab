@@ -1,13 +1,14 @@
----
-# Pod
 apiVersion: v1
-kind: Pod
+kind:       Pod
 metadata:
-  name: <!!CHANGE_ME!!>
+  name: iconoflix1
+  labels:
+    app: iconoflixapp
 spec:
   containers:
-    - name: <!!CHANGE_ME!!>
-      image: <!!CHANGE_ME!!>
-      imagePullPolicy: <!!CHANGE_ME!!>
-      ports:
-        - containerPort: <!!CHANGE_ME!!>
+  - name:    mem 
+    image:   quay.io/imhotepio/iconoflix:mem
+    imagePullPolicy: Always
+    ports:
+      - name:          http
+        containerPort: 4000 
